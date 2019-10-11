@@ -12,7 +12,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "surveyshrike",
+      "prefix": "survey",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "surveyshrike-ui:build"
+            "browserTarget": "survey-ui:build"
           }
         },
         "test": {
@@ -83,6 +83,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
+            "codeCoverage": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -110,15 +111,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "surveyshrike-ui:serve"
+            "devServerTarget": "survey-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "surveyshrike-ui:serve:production"
+              "devServerTarget": "survey-ui:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "surveyshrike-ui"
+  "defaultProject": "survey-ui"
 }
