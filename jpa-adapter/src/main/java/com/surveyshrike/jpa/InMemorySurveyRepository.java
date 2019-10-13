@@ -4,6 +4,7 @@ import com.surveyshrike.domain.model.QuestionAnswer;
 import com.surveyshrike.domain.model.Survey;
 import com.surveyshrike.domain.port.SurveyRepository;
 import com.surveyshrike.jpa.dao.SurveyDao;
+import com.surveyshrike.jpa.entity.CreatorEntity;
 import com.surveyshrike.jpa.entity.QuestionAnswerEntity;
 import com.surveyshrike.jpa.entity.SurveyEntity;
 import java.util.List;
@@ -22,7 +23,14 @@ public class InMemorySurveyRepository implements SurveyRepository {
   @Override
   public Survey getSurvey(Long surveyId) {
     SurveyEntity survey = surveyDao.findById(surveyId).orElse(null);
-    return constructSurvey(survey);
+    return serializeSurvey(survey);
+  }
+
+  @Override
+  public Long saveSurvey(Survey survey) {
+    SurveyEntity surveyEntity = deSerializeSurvey(survey);
+    surveyEntity = surveyDao.save(surveyEntity);
+    return surveyEntity.getId();
   }
 
   @Override
@@ -30,12 +38,29 @@ public class InMemorySurveyRepository implements SurveyRepository {
     return null;
   }
 
-  private Survey constructSurvey(SurveyEntity surveyEntity) {
+  private SurveyEntity deSerializeSurvey(Survey survey) {
+    List<QuestionAnswerEntity> questionAnswerEntities = survey.getQuestionAnswer().stream()
+        .map(this::deSerializeToQuestionAnswer)
+        .collect(Collectors.toList());
+    CreatorEntity creatorEntity = new CreatorEntity();
+    creatorEntity.setId(survey.getCreatorId());
+    creatorEntity.setName(survey.getCreatorName());
+    SurveyEntity surveyEntity = new SurveyEntity();
+    surveyEntity.setCreator(creatorEntity);
+    surveyEntity.setDescription(survey.getDescription());
+    surveyEntity.setId(survey.getId());
+    surveyEntity.setName(survey.getName());
+    surveyEntity.setQuestionAnswers(questionAnswerEntities);
+    return surveyEntity;
+  }
+
+
+  private Survey serializeSurvey(SurveyEntity surveyEntity) {
     if(Objects.isNull(surveyEntity)) {
       return null;
     }
     List<QuestionAnswer> questionAnswers
-        = surveyEntity.getQuestionAnswers().stream().map(this::convertToQuestionAnswer)
+        = surveyEntity.getQuestionAnswers().stream().map(this::serializeToQuestionAnswer)
         .collect(Collectors.toList());
     return Survey.builder().id(surveyEntity.getId()).name(surveyEntity.getName())
         .description(surveyEntity.getDescription())
@@ -45,9 +70,15 @@ public class InMemorySurveyRepository implements SurveyRepository {
         .build();
   }
 
-  private QuestionAnswer convertToQuestionAnswer(QuestionAnswerEntity questionAnswerEntity) {
+  private QuestionAnswer serializeToQuestionAnswer(QuestionAnswerEntity questionAnswerEntity) {
     QuestionAnswer questionAnswer = new QuestionAnswer();
     BeanUtils.copyProperties(questionAnswerEntity, questionAnswer);
     return questionAnswer;
+  }
+
+  private QuestionAnswerEntity deSerializeToQuestionAnswer(QuestionAnswer questionAnswer) {
+    QuestionAnswerEntity questionAnswerEntity = new QuestionAnswerEntity();
+    BeanUtils.copyProperties(questionAnswer, questionAnswerEntity);
+    return questionAnswerEntity;
   }
 }
