@@ -1,5 +1,5 @@
 # Survey shrike
-
+[![Build Status](https://travis-ci.com/anupbaranwal/surveyshrike.svg?branch=master)](https://travis-ci.com/anupbaranwal/surveyshrike)
 ## About
 Survey shrike is a free online survey tool.
 SurveyShrike help businesses conduct surveys.

@@ -1,6 +1,6 @@
 package com.surveyshrike.jpa.entity;
 
-import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +33,7 @@ public class QuestionAnswerEntity {
   @Column(name = "ANSWERS")
   private String answers;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
   @JoinColumn(name = "SURVEY_ID")
   private SurveyEntity survey;
 }
