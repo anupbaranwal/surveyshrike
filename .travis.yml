@@ -24,9 +24,10 @@ script:
 - mvn verify jacoco:report
 after_success:
 - mvn coveralls:report
-#deploy:
-#  provider: pages
-#  script: mvn release:perform --settings release/mvnsettings.xml -Darguments="-DskipTests"
-#  skip_cleanup: true
-#  on:
-#    tags: true
+deploy:
+  provider: heroku
+  api_key:
+    secure: $HEROKU_API_KEY
+  app: survey-shrike-server
+  on:
+    repo: anupbaranwal/surveyshrike
