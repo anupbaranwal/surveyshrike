@@ -24,10 +24,3 @@ script:
 - mvn verify jacoco:report
 after_success:
 - mvn coveralls:report
-deploy:
-  provider: heroku
-  api_key:
-    secure: $HEROKU_API_KEY
-  app: survey-shrike-server
-  on:
-    repo: anupbaranwal/surveyshrike
