@@ -1,5 +1,6 @@
 # Survey shrike
 [![Build Status](https://travis-ci.com/anupbaranwal/surveyshrike.svg?branch=master)](https://travis-ci.com/anupbaranwal/surveyshrike)
+[![Coverage Status](https://coveralls.io/repos/github/anupbaranwal/surveyshrike/badge.svg?branch=master)](https://coveralls.io/github/anupbaranwal/surveyshrike?branch=master)
 ## About
 Survey shrike is a free online survey tool.
 SurveyShrike help businesses conduct surveys.
