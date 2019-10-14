@@ -1,0 +1,6 @@
+{
+  "/surveys": {
+    "target": "http://localhost:9085",
+    "secure": false
+  }
+}
